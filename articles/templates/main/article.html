@@ -1,0 +1,116 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container" style='margin-top: 70px'>
+  <div class="container-fluid flex-grow-1 container-p-y">
+    <div class="row">
+      <div class="col-md-10">
+        <h4 class="font-weight-bold py-3">
+          {{article.name}}
+        </h4>
+      </div>
+      <div class="col-md-2">
+        {% if request.user.is_staff %}
+          <a href="/edit_article/{{article.id}}">
+            <button type="button" class="btn btn-outline-primary">
+              Изменить
+            </button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class='d-flex small'>
+      {% for tag in article.project_directions_list %}
+        {% if tag != '' %}
+          <a href='#' class='tag'> {{tag}} </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="content mt-5">
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Город</div>
+        <div class="col-md-7">{{article.city}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Категория</div>
+        <div class="col-md-7">{{article.category}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Источник</div>
+        <div class="col-md-7">{{article.source}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Участники</div>
+        <div class="col-md-7 d-flex">
+          {% for participant in article.participants.all %}
+            <span href='#' class='tag'> {{participant}}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Уровень</div>
+        <div class="col-md-7">{{article.grade}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Сфера</div>
+        <div class="col-md-7 d-flex">
+          {% for scope in article.scope_list %}
+
+            {% if scope != '' %}
+              <a href='#' class='tag'>
+                {{scope}}
+              </a>
+            {% endif %}
+
+          {% endfor %}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Организаторы</div>
+        <div class="col-md-7">{{article.organization}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Цель финансирования</div>
+        <div class="col-md-7">{{article.purpose}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Требования</div>
+        <div class="col-md-7">{{article.requirements}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 text-muted">Стоимость</div>
+        <div class="col-md-7">{{article.cost}}</div>
+      </div>
+
+      <div class="mt-5 mb-5">
+        {{article.description|safe}}
+      </div>
+
+      <div class="row mb-3 mt-5">
+        <div class="col-md-5 text-muted">Контакты</div>
+        <div class="col-md-7">{{article.contacts}}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Ссылка на документы</div>
+        <div class="col-md-7">
+          <a href="{{article.link_to_documents}}">{{article.link_to_documents}}</a>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Ссылка на официальные данные</div>
+        <div class="col-md-7">
+          <a href="{{article.link_to_official}}">{{article.link_to_official}}</a>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5 text-muted">Ссылка на НПА</div>
+        <div class="col-md-7">
+          <a href="{{article.link_to_npa}}">{{article.link_to_npa}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

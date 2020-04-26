@@ -1,0 +1,5 @@
+[client]
+database = blog
+user = django
+password = uq7#48E5*?t@ZEf$
+default-character-set = utf8

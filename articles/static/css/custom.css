@@ -1,0 +1,44 @@
+.d-flex{
+  display: flex;
+  width: 100%;
+  line-height: 1.6;
+  flex-wrap: wrap;
+}
+
+.tag {
+  border: 1px solid #000000;
+  box-shadow: 0 0 0 1px rgba(24,28,33,0.1) inset;
+  color: #4E5155;
+  padding: .25em .417em;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .125rem;
+  margin-right: 0.5rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.portfolio-image {
+  background-position: center center;
+  background-size: cover;
+}
+
+.ui-bg-cover {
+  background-color: transparent;
+  background-position: center center;
+  background-size: cover;
+}
+
+.ui-rect-30 {
+  padding-top: 30% !important;
+}
+
+.ui-square, .ui-rect, .ui-rect-30, .ui-rect-60, .ui-rect-67, .ui-rect-75 {
+  position: relative !important;
+  display: block !important;
+  padding-top: 100% !important;
+  width: 100% !important;
+  max-height: 300px !important;
+}
