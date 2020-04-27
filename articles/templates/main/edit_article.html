@@ -80,8 +80,41 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Сфера</label>
-            <input name='scope' type="text" class="form-control" value="{{article.scope}}">
+            <label class="form-label">Сфера <a href="#"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus text-success"></i></a></label>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="form-label">Название сферы</label>
+                      <input name='scope_name' type="text" class="form-control">
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" name='add-scope' class="btn btn-outline-info">Добавить сферу</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <select name='scope' multiple class="form-control" id="exampleFormControlSelect2">
+              {% for scope in article.scopes_list %}
+                <option value="{{scope.id}}"
+                 {% if scope in article.scopes.all %}selected="selected"{% endif %}>
+                 {{scope.name}}
+                </option>
+              {% endfor %}
+            </select>
+            <small id="passwordHelpBlock" class="form-text text-muted">
+              Чтобы выбрать несколько вариантов зажмите SHIFT.
+            </small>
           </div>
 
           <div class="form-group">
@@ -100,23 +133,19 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Цель финансирования</label>
-            <input name='purpose' type="text" class="form-control" value="{{article.purpose}}">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Требования к участнику</label>
-            <input name='requirements' type="text" class="form-control" value="{{article.requirements}}">
-          </div>
-
-          <div class="form-group">
             {{ post_form.media }}
             {{ post_form.as_p }}
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Сумма</label>
-            <input name='cost' type="text" class="form-control" value="{{article.cost}}">
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label class="form-label">Минимальная стоимость</label>
+              <input name='cost_min' type="text" class="form-control" value="{{article.cost_min}}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Максимальная стоимость</label>
+              <input name='cost_max' type="text" class="form-control" value="{{article.cost_max}}">
+            </div>
           </div>
 
           <div class="form-group">
@@ -130,13 +159,10 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Контакты организатора</label>
-            <input name='contacts' type="text" class="form-control" value="{{article.contacts}}">
-          </div>
-
-          <div class="form-group">
             <label class="form-label">Ссылка НПА</label>
-            <input name='link_to_npa' type="text" class="form-control" value="{{article.link_to_npa}}">
+            <textarea name='link_to_npa' class="form-control" name='link_to_npa' type="text" class="form-control" value="{{article.link_to_npa}}" rows=10>
+              {{article.link_to_npa}}
+            </textarea>
           </div>
 
           <div class="form-group">
@@ -155,6 +181,11 @@
       </div>
     </form>
 
+    <script type="text/javascript">
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+    </script>
   </div>
 </div>
 

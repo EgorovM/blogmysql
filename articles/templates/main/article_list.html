@@ -27,7 +27,11 @@
         <tbody>
           {% for article in article_list %}
             <tr class='table-item {% if forloop.counter|divisibleby:2 %}table-active{% endif %}'>
-              <td>{{forloop.counter}}</td>
+              <td>
+                <a href="/article/{{article.id}}">
+                  {{forloop.counter}}
+                </a>
+              </td>
               <td>
                 <a href="/article/{{article.id}}">
                   {{article.name}}

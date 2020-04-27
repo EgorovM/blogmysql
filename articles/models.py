@@ -1,21 +1,6 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
-"""
-• Сфера (если несколько то они должны идти отдельно, так как по том по ним будет отдельный поиск)
-• Направления проектов (если несколько то они должны идти отдельно, так как по том по ним будет отдельный поиск)
-• Организация
-• Наименование
-• Цель финансирования (если несколько то они должны идти отдельно, так как по том по ним будет отдельный поиск)
-• Требования к участнику
-• Описание
-• Сумма
-• Ссылка на Документы
-• Ссылка на официальный источник
-• Контакты организатора
-• Ссылка НПА
-"""
-
 
 class City(models.Model):
     name = models.CharField(max_length=63)
@@ -52,6 +37,13 @@ class Source(models.Model):
         return self.name
 
 
+class Scope(models.Model):
+    name = models.CharField(max_length=63)
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     STATUSES = [
         ('PUB', 'Опубликовано'),
@@ -65,22 +57,27 @@ class Article(models.Model):
     participants       = models.ManyToManyField('Participant')
     grade              = models.ForeignKey('Grade', on_delete=models.CASCADE, null=True, blank=True)
     scope              = models.CharField(max_length=255, blank=True)
+    scopes             = models.ManyToManyField('Scope')
     project_directions = models.CharField(max_length=255, blank=True)
     organization       = models.CharField(max_length=255, blank=True)
     name               = models.CharField(max_length=255, blank=True)
-    purpose            = models.CharField(max_length=255, blank=True)
-    requirements       = models.CharField(max_length=255, blank=True)
+    purpose            = RichTextUploadingField()
+    requirements       = RichTextUploadingField()
     description        = RichTextUploadingField()
-    cost               = models.CharField(max_length=255, blank=True)
+    cost_min           = models.IntegerField(default=0)
+    cost_max           = models.IntegerField(default=0)
     link_to_documents  = models.CharField(max_length=255, blank=True)
     link_to_official   = models.CharField(max_length=255, blank=True)
-    contacts           = models.CharField(max_length=255, blank=True)
-    link_to_npa        = models.CharField(max_length=255, blank=True)
+    contacts           = RichTextUploadingField()
+    link_to_npa        = models.CharField(max_length=2055, blank=True)
     status             = models.CharField(max_length=3, choices=STATUSES, default='EDT', blank=True)
 
 
     def participants_list(self):
         return list(Participant.objects.all())
+
+    def scopes_list(self):
+        return list(Scope.objects.all())
 
     def cities_list(self):
         return City.objects.all()
@@ -98,13 +95,22 @@ class Article(models.Model):
         return self.participants
 
     def scope_list(self):
-        return self.scope.split(';')
+        return self.scope
 
     def project_directions_list(self):
         return self.project_directions.split(';')
 
     def contacts_list(self):
         return self.contacts.split(';')
+
+    def document_urls_list(self):
+        return self.link_to_documents.split(';')
+
+    def official_urls_list(self):
+        return self.link_to_official.split(';')
+
+    def npa_urls_list(self):
+        return self.link_to_npa.split(';')
 
     def __str__(self):
         return self.name

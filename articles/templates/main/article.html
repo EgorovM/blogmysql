@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-md-10">
         <h4 class="font-weight-bold py-3">
-          {{article.name}}
+          {{article.name}} {% if request.user.is_staff and article.status == 'PUB'%} <i class="fas fa-check"></i> {% endif %}
         </h4>
       </div>
       <div class="col-md-2">
@@ -56,7 +56,7 @@
       <div class="row mb-3">
         <div class="col-md-5 text-muted">Сфера</div>
         <div class="col-md-7 d-flex">
-          {% for scope in article.scope_list %}
+          {% for scope in article.scopes.all %}
 
             {% if scope != '' %}
               <a href='#' class='tag'>
@@ -67,47 +67,74 @@
           {% endfor %}
         </div>
       </div>
+
       <div class="row mb-3">
         <div class="col-md-5 text-muted">Организаторы</div>
         <div class="col-md-7">{{article.organization}}</div>
       </div>
+
       <div class="row mb-3">
-        <div class="col-md-5 text-muted">Цель финансирования</div>
-        <div class="col-md-7">{{article.purpose}}</div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-5 text-muted">Требования</div>
-        <div class="col-md-7">{{article.requirements}}</div>
-      </div>
-      <div class="row">
         <div class="col-md-5 text-muted">Стоимость</div>
-        <div class="col-md-7">{{article.cost}}</div>
+        <div class="col-md-7">{{article.cost_min}}рб. - {{article.cost_max}}рб.</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12 text-muted mb-2">Цель финансирования</div>
+        <div class="col-md-12">
+          {{article.purpose|safe}}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-12 text-muted mb-2">Требования к участнику</div>
+        <div class="col-md-12">
+          {{article.requirements|safe}}
+        </div>
       </div>
 
       <div class="mt-5 mb-5">
-        {{article.description|safe}}
+        <div class="col-md-12">
+          {{article.description|safe}}
+        </div>
       </div>
 
       <div class="row mb-3 mt-5">
-        <div class="col-md-5 text-muted">Контакты</div>
-        <div class="col-md-7">{{article.contacts}}</div>
+        <div class="col-md-12 text-muted mb-2">Контакты организации</div>
+        <div class="col-md-12">
+          {{article.contacts|safe}}
+        </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-5 text-muted">Ссылка на документы</div>
         <div class="col-md-7">
-          <a href="{{article.link_to_documents}}">{{article.link_to_documents}}</a>
+          <div class='d-flex small'>
+            {% for tag in article.document_urls_list %}
+              {% if tag != '' %}
+                <a href='{{tag}}' class='tag'> {{tag}} </a>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-5 text-muted">Ссылка на официальные данные</div>
         <div class="col-md-7">
-          <a href="{{article.link_to_official}}">{{article.link_to_official}}</a>
+          <div class='d-flex small'>
+            {% for tag in article.official_urls_list %}
+              {% if tag != '' %}
+                <a href='{{tag}}' class='tag'> {{tag}} </a>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col-md-5 text-muted">Ссылка на НПА</div>
-        <div class="col-md-7">
-          <a href="{{article.link_to_npa}}">{{article.link_to_npa}}</a>
+        <div class="col-md-12 text-muted mb-3">Ссылка на НПА</div>
+        <div class="col-md-12">
+          {% for tag in article.npa_urls_list %}
+            {% if tag != '' %}
+              <p> {{tag}} </p>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>

@@ -27,7 +27,12 @@ def edit_article(request, id):
     if 'msg' in request.GET: msg = request.GET.get('msg')
 
     article = Article.objects.get(id=id)
-    post_form = PostEditForm(initial={'description': article.description})
+    post_form = PostEditForm(initial={
+        'description': article.description,
+        'purpose': article.purpose,
+        'requirements': article.requirements,
+        'contacts': article.contacts
+    })
 
     if request.method == 'POST':
         if 'save_btn' in request.POST:
@@ -46,14 +51,19 @@ def edit_article(request, id):
                         article.participants.clear()
                         for id in request.POST.getlist(name):
                             article.participants.add(Participant.objects.get(id=int(id)))
+                    elif name == 'scope':
+                        article.scopes.clear()
+                        for id in request.POST.getlist(name):
+                            article.scopes.add(Scope.objects.get(id=int(id)))
                     else:
-                        print(name, request.POST.get(name))
                         setattr(article, name, val)
-                        print(name, getattr(article, name))
 
             article.save()
             msg = 'Успешно сохранено!'
-
+        elif 'add-scope' in request.POST:
+            scope_name = request.POST['scope_name']
+            scope = Scope.objects.create(name=scope_name)
+            msg = f'Сфера {scope.name} добавлена'
     return render(request, 'main/edit_article.html', locals())
 
 
