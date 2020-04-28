@@ -6,10 +6,11 @@
     <h4 class="font-weight-bold py-3 mb-4">
       Список статей
     </h4>
-    <div class="row card">
-      <div class="text-right col-md-11 pt-3 pb-3">
-          <label for="search">Поиск:</label>
-          <input class='pt-1 pb-1 pl-2 pr-2 search' id='search' class='search' type="text" style='border-radius: 20px'/>
+    <div class="row option-card">
+      <a href='/article_list/?view_all=True'><button type="button" class="btn btn-info">Посмотреть всё</button></a>
+      <div>
+        <label for="search">Поиск:</label>
+        <input class='pt-1 pb-1 pl-2 pr-2 search' id='search' class='search' type="text" style='border-radius: 20px'/>
       </div>
     </div>
     <div class="row">
@@ -28,12 +29,12 @@
           {% for article in article_list %}
             <tr class='table-item {% if forloop.counter|divisibleby:2 %}table-active{% endif %}'>
               <td>
-                <a href="/article/{{article.id}}">
+                <a href="/subsidii/{{article.id}}">
                   {{forloop.counter}}
                 </a>
               </td>
               <td>
-                <a href="/article/{{article.id}}">
+                <a href="/subsidii/{{article.id}}">
                   {{article.name}}
                 </a>
               </td>

@@ -21,7 +21,7 @@
     </div>
 
     <div class='d-flex small'>
-      {% for tag in article.project_directions_list %}
+      {% for tag in article.project_directions.all %}
         {% if tag != '' %}
           <a href='#' class='tag'> {{tag}} </a>
         {% endif %}
@@ -75,13 +75,25 @@
 
       <div class="row mb-3">
         <div class="col-md-5 text-muted">Стоимость</div>
-        <div class="col-md-7">{{article.cost_min}}рб. - {{article.cost_max}}рб.</div>
+        {% if article.upon_request %}
+          <div class="col-md-7">По запросу</div>
+        {% else %}
+          <div class="col-md-7">{{article.cost_min}}рб. - {{article.cost_max}}рб.</div>
+        {% endif %}
       </div>
 
       <div class="row mb-3">
-        <div class="col-md-12 text-muted mb-2">Цель финансирования</div>
-        <div class="col-md-12">
-          {{article.purpose|safe}}
+        <div class="col-md-5 text-muted">Цель финансирования</div>
+        <div class="col-md-7 d-flex">
+          {% for scope in article.purpose.all %}
+
+            {% if scope != '' %}
+              <a href='#' class='tag'>
+                {{scope}}
+              </a>
+            {% endif %}
+
+          {% endfor %}
         </div>
       </div>
       <div class="row mb-3">
@@ -128,7 +140,7 @@
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col-md-12 text-muted mb-3">Ссылка на НПА</div>
+        <div class="col-md-12 text-muted mb-3">НПА</div>
         <div class="col-md-12">
           {% for tag in article.npa_urls_list %}
             {% if tag != '' %}

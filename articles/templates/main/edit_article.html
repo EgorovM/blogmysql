@@ -4,7 +4,7 @@
 <div class="container" style='margin-top: 70px'>
   <div class="container-fluid flex-grow-1 container-p-y">
     <h4 class="font-weight-bold py-3 mb-4">
-      Редактирование статьи <a href="/article/{{article.id}}"><span class="text-muted">#{{article.id}}</span></a>
+      Редактирование статьи <a href="/subsidii/{{article.id}}"><span class="text-muted">#{{article.id}}</span></a>
     </h4>
     {% if msg %}
     <div class="alert alert-success" role="alert">
@@ -80,12 +80,12 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Сфера <a href="#"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus text-success"></i></a></label>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <label class="form-label">Сфера <a href="#"  data-toggle="modal" data-target="#scopeModal"><i class="fas fa-plus text-success"></i></a></label>
+            <div class="modal fade" id="scopeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить сферу</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -104,7 +104,7 @@
                 </div>
               </div>
             </div>
-            <select name='scope' multiple class="form-control" id="exampleFormControlSelect2">
+            <select name='scopes' multiple class="form-control" id="exampleFormControlSelect2">
               {% for scope in article.scopes_list %}
                 <option value="{{scope.id}}"
                  {% if scope in article.scopes.all %}selected="selected"{% endif %}>
@@ -118,8 +118,72 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Направления проектов</label>
-            <input name='project_directions' type="text" class="form-control" value="{{article.project_directions}}">
+            <label class="form-label">Направления проектов <a href="#"  data-toggle="modal" data-target="#directionsModal"><i class="fas fa-plus text-success"></i></a></label>
+            <div class="modal fade" id="directionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить направление проектов</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="form-label">Название направления</label>
+                      <input name='direction_name' type="text" class="form-control">
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" name='add-direction' class="btn btn-outline-info">Добавить направление</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <select name='project_directions' multiple class="form-control" id="exampleFormControlSelect2">
+              {% for direction in article.directions_list %}
+                <option value="{{direction.id}}"
+                 {% if direction in article.project_directions.all %}selected="selected"{% endif %}>
+                 {{direction.name}}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Цель финансирования <a href="#"  data-toggle="modal" data-target="#purposeModal"><i class="fas fa-plus text-success"></i></a></label>
+            <div class="modal fade" id="purposeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить цель финансирования</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="form-label">Название цели</label>
+                      <input name='purpose_name' type="text" class="form-control">
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" name='add-purpose' class="btn btn-outline-info">Добавить цель</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <select name='purpose' multiple class="form-control" id="exampleFormControlSelect2">
+              {% for purpose in article.purposes_list %}
+                <option value="{{purpose.id}}"
+                 {% if purpose in article.purpose.all %}selected="selected"{% endif %}>
+                 {{purpose.name}}
+                </option>
+              {% endfor %}
+            </select>
           </div>
 
           <div class="form-group">
@@ -137,7 +201,12 @@
             {{ post_form.as_p }}
           </div>
 
-          <div class="form-group row">
+          <div class="form-group">
+            <label class="form-label">Цена по запросу</label>
+            <input type="checkbox" name='upon_request' onclick="hide_cost()" id='upon_request' {% if article.upon_request %} checked {% endif%}>
+          </div>
+
+          <div class="form-group row cost-form">
             <div class="col-md-6">
               <label class="form-label">Минимальная стоимость</label>
               <input name='cost_min' type="text" class="form-control" value="{{article.cost_min}}">
@@ -159,7 +228,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Ссылка НПА</label>
+            <label class="form-label">НПА</label>
             <textarea name='link_to_npa' class="form-control" name='link_to_npa' type="text" class="form-control" value="{{article.link_to_npa}}" rows=10>
               {{article.link_to_npa}}
             </textarea>
@@ -181,10 +250,26 @@
       </div>
     </form>
 
+    {% if article.upon_request %}
+      <script type="text/javascript">
+        window.onload = function() {
+          hide_cost();
+          console.log('ready');
+        }
+      </script>
+    {% endif%}
+
     <script type="text/javascript">
+
+      function hide_cost(){
+        if($('#upon_request:checkbox:checked').length > 0) $('.cost-form').hide();
+        else  $('.cost-form').show();
+      }
+
       $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').trigger('focus')
-      })
+        $('#myInput').trigger('focus');
+      });
+
     </script>
   </div>
 </div>

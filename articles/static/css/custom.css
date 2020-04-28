@@ -20,25 +20,17 @@
   margin-top: 0.5rem !important;
 }
 
-.portfolio-image {
-  background-position: center center;
-  background-size: cover;
-}
-
-.ui-bg-cover {
-  background-color: transparent;
-  background-position: center center;
-  background-size: cover;
-}
-
-.ui-rect-30 {
-  padding-top: 30% !important;
-}
-
-.ui-square, .ui-rect, .ui-rect-30, .ui-rect-60, .ui-rect-67, .ui-rect-75 {
-  position: relative !important;
-  display: block !important;
-  padding-top: 100% !important;
-  width: 100% !important;
-  max-height: 300px !important;
+.option-card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    -ms-flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding: 20px;
 }

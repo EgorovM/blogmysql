@@ -44,6 +44,20 @@ class Scope(models.Model):
         return self.name
 
 
+class Purpose(models.Model):
+    name = models.CharField(max_length=63)
+
+    def __str__(self):
+        return self.name
+
+
+class ProjectDirection(models.Model):
+    name = models.CharField(max_length=63)
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     STATUSES = [
         ('PUB', 'Опубликовано'),
@@ -56,16 +70,16 @@ class Article(models.Model):
     source             = models.ForeignKey('Source', on_delete=models.CASCADE, null=True, blank=True)
     participants       = models.ManyToManyField('Participant')
     grade              = models.ForeignKey('Grade', on_delete=models.CASCADE, null=True, blank=True)
-    scope              = models.CharField(max_length=255, blank=True)
     scopes             = models.ManyToManyField('Scope')
-    project_directions = models.CharField(max_length=255, blank=True)
+    project_directions = models.ManyToManyField('ProjectDirection')
     organization       = models.CharField(max_length=255, blank=True)
     name               = models.CharField(max_length=255, blank=True)
-    purpose            = RichTextUploadingField()
+    purpose            = models.ManyToManyField('Purpose')
     requirements       = RichTextUploadingField()
     description        = RichTextUploadingField()
     cost_min           = models.IntegerField(default=0)
     cost_max           = models.IntegerField(default=0)
+    upon_request       = models.BooleanField(default=False)
     link_to_documents  = models.CharField(max_length=255, blank=True)
     link_to_official   = models.CharField(max_length=255, blank=True)
     contacts           = RichTextUploadingField()
@@ -78,6 +92,12 @@ class Article(models.Model):
 
     def scopes_list(self):
         return list(Scope.objects.all())
+
+    def directions_list(self):
+        return list(ProjectDirection.objects.all())
+
+    def purposes_list(self):
+        return list(Purpose.objects.all())
 
     def cities_list(self):
         return City.objects.all()
@@ -93,12 +113,6 @@ class Article(models.Model):
 
     def get_participants(self):
         return self.participants
-
-    def scope_list(self):
-        return self.scope
-
-    def project_directions_list(self):
-        return self.project_directions.split(';')
 
     def contacts_list(self):
         return self.contacts.split(';')
