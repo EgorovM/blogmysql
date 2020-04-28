@@ -1,8 +1,10 @@
-import inspect
 from django.contrib import admin
 
 from . import models
 
-for m in inspect.getmembers(models, inspect.isclass):
-    if m[1].__module__ == 'articles.models':
-        admin.site.register(m[1])
+import inspect
+
+
+for name, cls in inspect.getmembers(models, inspect.isclass):
+    if cls.__module__ == 'articles.models':
+        admin.site.register(cls)
