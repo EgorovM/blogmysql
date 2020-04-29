@@ -1,4 +1,16 @@
-.d-flex{
+a {
+  text-decoration: none;
+}
+
+a:link, a:visited {
+  color: black;
+}
+
+a:hover {
+  color: black;
+}
+
+.d-flex {
   display: flex;
   width: 100%;
   line-height: 1.6;
