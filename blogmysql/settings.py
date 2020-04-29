@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'blogmysql.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'blog',
-        'USER': 'django',
-        'PASSWORD': 'uq7#48E5*?t@ZEf$',
+        'NAME': 'u1038830_default',
+        'USER': 'u1038830_default',
+        'PASSWORD': '!oLdcL3M',
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': os.path.join(BASE_DIR, 'blogmysql/mysqlsetting.cnf'),

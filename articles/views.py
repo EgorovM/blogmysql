@@ -108,6 +108,7 @@ def add_article(request):
     if not request.user.is_staff:
         return render(request, 'bad/access_denied.html', locals())
 
+    post_form = PostEditForm()
     article = Article()
     title = 'Добавление статьи'
     msg = 'Можно приступать к редактированию'
